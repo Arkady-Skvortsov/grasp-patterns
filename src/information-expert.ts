@@ -51,8 +51,8 @@ const product = new Product("Pen", 300);
 const check = new Check(product, 10);
 const calculator = new Calculator([check], 30);
 
-console.log(check.getProductPrice); // 
+console.log(check.getProductPrice); // 3000
 
-console.log(calculator.getProductSumm); //
+console.log(calculator.getProductSumm); // 400
 
 export { Check, Calculator, Product }

@@ -51,12 +51,10 @@ Check = __decorate([
 exports.Check = Check;
 let Calculator = class Calculator {
     check;
-    time;
-    sale;
-    constructor(check, time, sale) {
+    discount;
+    constructor(check, discount) {
         this.check = check;
-        this.time = time;
-        this.sale = sale;
+        this.discount = discount / 100;
     }
     get getProductSumm() {
         let summ = 0;
@@ -67,13 +65,12 @@ let Calculator = class Calculator {
 Calculator = __decorate([
     (0, inversify_1.injectable)(),
     __param(0, (0, inversify_1.inject)(types_1.TYPES.Check)),
-    __metadata("design:paramtypes", [Array, String, Number])
+    __metadata("design:paramtypes", [Array, Number])
 ], Calculator);
 exports.Calculator = Calculator;
 const product = new Product("Pen", 300);
-const product2 = new Product("Watermelon", 200);
 const check = new Check(product, 10);
-const check2 = new Check(product2, 2);
-const calculator = new Calculator([check, check2], "", 30);
-console.log(check.getProductPrice, check2.getProductPrice);
+const calculator = new Calculator([check], 30);
+console.log(check.getProductPrice); // 3000
+console.log(calculator.getProductSumm); // 400
 //# sourceMappingURL=information-expert.js.map

@@ -25,4 +25,8 @@ I'm undone already, even programmer reading that, thinking - I'm crazy, like thi
 
 GRASP patterns, unlike SOLID principles, look more realistic to use (P.S. at least they can be quickly entered into); They will help you write cleaner and more maintainable code in the OOP paradigm, don't thank Lerman for that)
 
+So, like SOLID - that's going from OOP principles: 1) Incapsulation, 2) Inheritance, 3) Polymorphism
+
 (The author also gives real examples of use and tries to use them where necessary to strengthen this in practice, like SOLID)
+
+**The main idea that you need to remember is that when you become an architect and start building a class diagram in UML or build it in your free time - that all these GRASP, SOLID and GoF along with the basic 3 principles of OOP 100% fall on architecture, because it may not be a class, but it may be a component or a file**
