@@ -10,5 +10,7 @@ Assign the duty of processing, aggregating, accumulating information to the N-th
 "Information Experts" can be no one class, but more
 
 # How it works ?
-
 Into [information-expert.ts]() we have 3 classes - 1) Calculator, 2) Check, 3) Product; Product has title && price; Check has amount of product; Calculator has a discount on some product; 
+
+# When to use ?
+Everytime

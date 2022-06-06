@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { inject, injectable } from "inversify";
 import { TYPES } from "./di-container/types";
 
+// [✅]
 @injectable()
 class Product {
     private title: string;
@@ -54,5 +55,7 @@ const calculator = new Calculator([check], 30);
 console.log(check.getProductPrice); // 3000
 
 console.log(calculator.getProductSumm); // 400
+
+// [❌]
 
 export { Check, Calculator, Product }

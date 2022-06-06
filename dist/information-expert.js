@@ -16,6 +16,7 @@ exports.Product = exports.Calculator = exports.Check = void 0;
 require("reflect-metadata");
 const inversify_1 = require("inversify");
 const types_1 = require("./di-container/types");
+// [✅]
 let Product = class Product {
     title;
     price;

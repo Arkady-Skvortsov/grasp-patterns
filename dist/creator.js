@@ -16,6 +16,7 @@ exports.Product = exports.Calculator = exports.Check = void 0;
 require("reflect-metadata");
 const inversify_1 = require("inversify");
 const types_1 = require("./di-container/types");
+// [✅]
 let Product = class Product {
     title;
     price;
@@ -59,7 +60,7 @@ let Calculator = class Calculator {
     get getProductSumm() {
         let summ = 0;
         this.check.map((c) => summ = c.getProductPrice);
-        return summ / 2;
+        return summ / (this.discount * 2);
     }
 };
 Calculator = __decorate([
@@ -71,6 +72,6 @@ exports.Calculator = Calculator;
 const product = new Product("Pen", 300);
 const check = new Check(product, 10);
 const calculator = new Calculator([check], 30);
-console.log(check.getProductPrice); // 
-console.log(calculator.getProductSumm); //
+console.log(check.getProductPrice); // 3000
+console.log(calculator.getProductSumm); // 400
 //# sourceMappingURL=creator.js.map

@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { injectable } from "inversify";
 
+// [✅]
 @injectable()
 class UsersController {
     constructor() {}
@@ -34,4 +35,6 @@ class KeyBoardController {
    }
 }
 
-export {UsersController, InventarController, BooksController, KeyBoardController}
+// [❌]
+
+export { UsersController, InventarController, BooksController, KeyBoardController }
