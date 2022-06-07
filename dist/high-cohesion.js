@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Temp = exports.Date = void 0;
+exports.Date = exports.Temp = void 0;
 // [✅]
 class dateTemp {
     constructor() { }
@@ -10,10 +10,10 @@ class Date extends dateTemp {
     constructor() {
         super();
     }
-    someMethod() {
+    diff() {
         console.log("someMethod() for date");
     }
-    someMethod2() { }
+    add() { }
     temperatureDate() { }
 }
 exports.Date = Date;
@@ -25,14 +25,13 @@ class Temp extends dateTemp {
         console.log("Temp diff");
     }
     add() { }
-    maxByDate() { }
-    minByDate() { }
+    temperatureDate() { }
 }
 exports.Temp = Temp;
 const date = new Date();
 const temp = new Temp();
 temp.diff();
-date.someMethod();
+date.diff();
 // [❌]
 class DateTemp {
     constructor() { }

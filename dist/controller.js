@@ -9,16 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KeyBoardController = exports.BooksController = exports.InventarController = exports.UsersController = void 0;
+exports.BooksController = exports.InventarController = exports.UsersController = void 0;
 require("reflect-metadata");
 const inversify_1 = require("inversify");
 // [✅]
 let UsersController = class UsersController {
     constructor() { }
-    getAllUsers() { }
-    updateUser(dto, name) { }
-    sendIventToFriends(dto, name) { }
-    deleteUser(id) { }
+    getAllUsers() {
+        // Call service method, not working with Business logic here
+    }
+    updateUser(dto, name) {
+        // Call service method, not working with Business logic here
+    }
+    sendIventToFriends(dto, name) {
+        // Call service method, not working with Business logic here
+    }
+    deleteUser(id) {
+        // Call service method, not working with Business logic here
+    }
 };
 UsersController = __decorate([
     (0, inversify_1.injectable)(),
@@ -26,31 +34,49 @@ UsersController = __decorate([
 ], UsersController);
 exports.UsersController = UsersController;
 let InventarController = class InventarController {
-    updateInventar(dto) { }
+    updateInventar(dto) {
+        // Call service method, not working with Business logic here
+    }
 };
 InventarController = __decorate([
     (0, inversify_1.injectable)()
 ], InventarController);
 exports.InventarController = InventarController;
 let BooksController = class BooksController {
-    async getAllBooks() { }
-    async getBook() { }
-    async deleteBook() { }
+    async getAllBooks() {
+        // Call service method, not working with Business logic here
+    }
+    async getBook() {
+        // Call service method, not working with Business logic here
+    }
+    async deleteBook() {
+        // Call service method, not working with Business logic here
+    }
 };
 BooksController = __decorate([
     (0, inversify_1.injectable)()
 ], BooksController);
 exports.BooksController = BooksController;
-let KeyBoardController = class KeyBoardController {
-    //Like in NestJS
-    //@Post("/")
-    //@Keyboard("Shift")
-    downloadFile() {
-        return true;
-    }
+// [❌]
+let UsersService = class UsersService {
+    constructor() { }
 };
-KeyBoardController = __decorate([
-    (0, inversify_1.injectable)()
-], KeyBoardController);
-exports.KeyBoardController = KeyBoardController;
+UsersService = __decorate([
+    (0, inversify_1.injectable)(),
+    __metadata("design:paramtypes", [])
+], UsersService);
+let InventarService = class InventarService {
+    constructor() { }
+};
+InventarService = __decorate([
+    (0, inversify_1.injectable)(),
+    __metadata("design:paramtypes", [])
+], InventarService);
+let BooksService = class BooksService {
+    constructor() { }
+};
+BooksService = __decorate([
+    (0, inversify_1.injectable)(),
+    __metadata("design:paramtypes", [])
+], BooksService);
 //# sourceMappingURL=controller.js.map

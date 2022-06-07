@@ -13,5 +13,4 @@ container.bind(types_1.TYPES.Check).to(information_expert_1.Check);
 container.bind(types_1.TYPES.UsersController).to(controller_1.UsersController);
 container.bind(types_1.TYPES.BooksController).to(controller_1.BooksController);
 container.bind(types_1.TYPES.InventarController).to(controller_1.InventarController);
-container.bind(types_1.TYPES.KeyboardController).to(controller_1.KeyBoardController);
 //# sourceMappingURL=container.js.map
