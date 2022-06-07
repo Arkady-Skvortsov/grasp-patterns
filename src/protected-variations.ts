@@ -1,85 +1,160 @@
 import { inject, injectable } from "inversify";
 import "reflect-metadata"
-import { createClient } from 'redis';
-import memoryCache, { Cache } from "memory-cache";
+import { createConnection } from "mysql2";
+import { Pool } from "pg";
 import { TYPES } from "./di-container/types";
 
-type cacheType = "Redis" | "Memcached";
+type databaseType = "PostgresQL" | "MySQL";
 
 // [✅]
-interface Cache {
-    get(key: string): Promise<any>;
-    add(key: string, value: string): Promise<void>;
-    has(key: string): Promise<boolean>;
-    del(key: string): Promise<void>;
+interface Database {
+    getAll(table: string): Promise<any>;
+    get(table: string, id: number): Promise<any>;
+    create(table: string, dto: any): Promise<any>;
+    update(table: string, id: number, dto: any): Promise<void>;
+    delete(table: string, id: number): Promise<number>;
 }
 
-class Redis implements Cache {
-    private redis;
+class MySQL implements Database {
+    private mysql;
 
     constructor() {
-        this.redis = createClient({});
+        this.mysql = createConnection({});
     }
 
-    public async get(key: string): Promise<any> {
-        return this.redis.get(key);
+    public async getAll(table: string): Promise<any> {
+        try {
+            return await this.mysql.query('SELECT * FROM $1', [table]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async add(key: string, value: string): Promise<void> {
-        await this.redis.set(key, value);
+
+    public async get(table: string, id: number): Promise<any> {
+        try {
+            return await this.mysql.query('SELECT * FROM $1 WHERE id = $2', [table, id]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async has(key: string): Promise<boolean> {
-        return await this.get(key) ? true : false;
+
+    public async create(table: string, dto: any): Promise<any> {
+        try {
+            return await this.mysql.query('INSERT INTO $1 (name, description, location) VALUES ()', []);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async del(key: string): Promise<void> {
-        await this.redis.del(key);
+
+    public async update(table: string, id: number, dto: any): Promise<any> {
+        try {
+            return await this.mysql.query('UPDATE $2 SET $3 = $4 WHERE id = $5 RETURNING *', []);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    public async delete(table: string, id: number): Promise<any> {
+        try {
+            return await this.mysql.query('DELETE FROM $1 WHERE id = $2 RETURNING id', [table, id]);
+        } catch(e) {
+            console.log(e);
+        }
     }
 }
 
-class Memcached implements Cache {
-    private memcached;
+class PostgresQL implements Database {
+    private postgresql: Pool;
 
     constructor() {
-        this.memcached = new memoryCache.Cache();
+        this.postgresql = new Pool();
     }
 
-    public async get(key: string): Promise<any> {
-        return this.memcached.get(key);
+    public async getAll(table: string): Promise<any> {
+        try {
+            return this.postgresql.query('SELECT * FROM $1', [table]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async add(key: string, value: string): Promise<void> {
-        await this.memcached.put(key, value);
+
+    public async get(table: string, id: number): Promise<any> {
+        try {
+            return this.postgresql.query('SELECT * FROM $1 WHERE id = $2', [table, id]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async has(key: string): Promise<boolean> {
-        return await this.get(key) ? true : false;
+
+    public async create(table: string, dto: any): Promise<any> {
+        try {
+            return await this.postgresql.query('INSERT INTO $1 (name, description, location) VALUES ($2, $3, $4)', [table, dto.name, dto.description, dto.location]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async del(key: string): Promise<void> {
-        await this.memcached.del(key);
+
+    public async update(table: string, id: number, dto: any): Promise<any> {
+        try {
+            return await this.postgresql.query('UPDATE $1 SET $2 = $3 WHERE id = $4 RETURNING *', [table, dto.title, dto.payload, id]);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    public async delete(table: string, id: number): Promise<any> {
+        try {
+            return await this.postgresql.query('DELETE FROM $1 WHERE id = $2 RETURNING id', [table, id]);
+        } catch(e) {
+            console.log(e);
+        }
     }
 }
 
 class Repository {
-    constructor(private cache: Cache) {}
+    constructor(private database: Database) {}
 
-    public async update() {}
+    public async getAll(table: string): Promise<any> {
+        return this.database.getAll(table);
+    }
+
+    public async get(table: string, id: number): Promise<any> {
+        return this.database.get(table, id);
+    }
+
+    public async create(table: string, dto: any): Promise<any> {
+        return this.database.create(table, dto);
+    }
+
+    public async update(table: string, id: number, dto: any): Promise<any> {
+        return this.database.update(table, id, dto);
+    }
+
+    public async delete(table: string, id: number): Promise<any> {
+        return this.database.delete(table, id);
+    }
 }
 
-const r = new Repository(new Redis());
-const r2 = new Repository(new Memcached());
+const r = new Repository(new PostgresQL());
+const r2 = new Repository(new MySQL());
+
+r.create("users", {username: "Arkadiy", location: "FI", description: "What the hell are you doing with other peoples, maybe you poison ?"});
 
 // [❌, 💩]
 @injectable()
 class repository {
-    constructor(@inject(TYPES.Redis) private redis: REdis, @inject(TYPES.Memcached) private memcached: MEmcached) {}
+    constructor(@inject(TYPES.PostgresQL) private postgresql: POstgres, @inject(TYPES.MySQL) private mysql: MYsql) {}
 
     //some methods...
 
-    public async update(type: cacheType, title: string, dto: any) {
-        if(type === "Memcached") {
-            const obj = await this.memcached.get(title);
+    public async update(type: databaseType, title: string, dto: any) {
+        if(type === 'PostgresQL') {
+            const obj = await this.postgresql.get(dto.title, dto.id);
 
             // Some code operations here...
         }
-        if(type === "Redis") {
-            const obj = await this.redis.get(title);
+        if(type === 'MySQL') {
+            const obj = await this.mysql.get(dto.title, dto.id);
 
             // Some code operations here....
         }
@@ -87,47 +162,101 @@ class repository {
 }
 
 @injectable()
-class REdis {
-    private redis;
+class POstgres {
+    private postgresql: Pool;
 
     constructor() {
-        this.redis = createClient();
+        this.postgresql = new Pool();
     }
 
-    public async get(key: string): Promise<any> {
-        return this.redis.get(key);
+    public async getAll(table: string): Promise<any> {
+        try {
+            return this.postgresql.query('SELECT * FROM $1', [table]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async add(key: string, value: any): Promise<void> {
-        await this.redis.set(key, value);
+
+    public async get(table: string, id: number): Promise<any> {
+        try {
+            return this.postgresql.query('SELECT * FROM $1 WHERE id = $2', [table, id]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async has(key: string): Promise<boolean> {
-        return await this.get(key) ? true : false;
+
+    public async create(table: string, dto: any): Promise<any> {
+        try {
+            return await this.postgresql.query('INSERT INTO $1 (name, description, location) VALUES ($2, $3, $4)', [table, dto.name, dto.description, dto.location]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async del(key: string): Promise<void> {
-        await this.redis.del(key);
+
+    public async update(table: string, id: number, dto: any): Promise<any> {
+        try {
+            return await this.postgresql.query('UPDATE $1 SET $2 = $3 WHERE id = $4 RETURNING *', [table, dto.title, dto.payload, id]);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    public async delete(table: string, id: number): Promise<any> {
+        try {
+            return await this.postgresql.query('DELETE FROM $1 WHERE id = $2 RETURNING id', [table, id]);
+        } catch(e) {
+            console.log(e);
+        }
     }
 }
 
 @injectable()
-class MEmcached {
-    private memcached;
+class MYsql {
+    private mysql;
 
     constructor() {
-        this.memcached = new memoryCache.Cache();
+        this.mysql = createConnection({});
     }
 
-    public async get(key: string): Promise<unknown> {
-        return this.memcached.get(key);
+    public async getAll(table: string): Promise<any> {
+        try {
+            return await this.mysql.query('SELECT * FROM $1', [table]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async add(key: string, value: any): Promise<void> {
-        await this.memcached.put(key, value);
+
+    public async get(table: string, id: number): Promise<any> {
+        try {
+            return await this.mysql.query('SELECT * FROM $1 WHERE id = $2', [table, id]);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async has(key: string): Promise<boolean> {
-        return await this.get(key) ? true : false;
+
+    public async create(table: string, dto: any): Promise<any> {
+        try {
+            return await this.mysql.query('INSERT INTO $1 (name, description, location) VALUES ()', []);
+        } catch(e) {
+            console.log(e);
+        }
     }
-    public async del(key: string): Promise<void> {
-        await this.memcached.del(key);
+
+    public async update(table: string, id: number, dto: any): Promise<any> {
+        try {
+            return await this.mysql.query('UPDATE $2 SET $3 = $4 WHERE id = $5 RETURNING *', []);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    public async delete(table: string, id: number): Promise<any> {
+        try {
+            return await this.mysql.query('DELETE FROM $1 WHERE id = $2 RETURNING id', [table, id]);
+        } catch(e) {
+            console.log(e);
+        }
     }
 }
 
-export { REdis, MEmcached }
+export { POstgres, MYsql }

@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { BooksController, InventarController, UsersController } from '../controller';
 import { MEmcached, REdis } from '../indirection';
 import { Check, Product } from '../information-expert';
+import { MYsql, POstgres } from '../protected-variations';
 import { Repository } from '../pure-fabrication';
 import { TYPES } from './types';
 
@@ -16,5 +17,7 @@ container.bind<InventarController>(TYPES.InventarController).to(InventarControll
 container.bind<Repository>(TYPES.Repository).to(Repository);
 container.bind<REdis>(TYPES.Redis).to(REdis);
 container.bind<MEmcached>(TYPES.Memcached).to(MEmcached);
+container.bind<POstgres>(TYPES.PostgresQL).to(POstgres);
+container.bind<MYsql>(TYPES.MySQL).to(MYsql)
 
 export { container };

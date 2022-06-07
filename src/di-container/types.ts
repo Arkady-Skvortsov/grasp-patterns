@@ -6,7 +6,9 @@ const TYPES = {
     InventarController: Symbol.for("InventarController"),
     Repository: Symbol.for("Repository"),
     Redis: Symbol.for("Redis"),
-    Memcached: Symbol.for("Memcached")
+    Memcached: Symbol.for("Memcached"),
+    PostgresQL: Symbol.for("PostgresQL"),
+    MySQL: Symbol.for("MySQL")
 }
 
 export { TYPES }
