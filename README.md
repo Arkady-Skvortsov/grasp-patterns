@@ -28,5 +28,7 @@ So, like SOLID - that's going from OOP principles: 1) Incapsulation, 2) Inherita
 
 **The main idea that you need to remember is that when you become an architect and start building a class diagram in UML or build it in your free time - that all these GRASP, SOLID and GoF along with the basic 3 principles of OOP 100% fall on architecture, because it may not be a class, but it may be a component or a file**
 
+Нou need to do now is to practice these patterns, then SOLID, and then GoF; And someday the time will come, how you will internally feel where it is worth applying this pattern and how to do it correctly, and where not)
+
 # Recomendation (⚠)
 I believe that every programmer should use these patterns to make the code cleaner and more maintainable, since they are PRACTICALLY 100% applicable, but with caution and according to the situation, because 1) The system can be so overcomplicated that you'll be in a state of frenzy and remember your 💩-code in tears of joy, 2) you must strictly look at the situation; I can say my recommendation, as my team and I - there is a "rule of the boy scout" (Any code rots sooner or later. To avoid this, you must follow the "rule of the boy scout": "leave the parking lot cleaner than it was before you arrived." Cleaning does not have to be global, it is enough to clean at least a small fragment of code, fragments of the eyes); If you enter the code 1 time, remember this place for yourself, if you enter 2 times, indicate a note to yourself, if the third time - REFACTORY THIS TO THE FUCK and use it

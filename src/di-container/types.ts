@@ -1,6 +1,10 @@
 const TYPES = {
     Product: Symbol.for("Product"),
     Check: Symbol.for("Check"),
+    PRoduct: Symbol.for("PRoduct"),
+    CHeck: Symbol.for("CHeck"),
+    product: Symbol.for("product"),
+    check: Symbol.for("check"),
     UsersController: Symbol.for("UsersController"),
     BooksController: Symbol.for("BooksController"),
     InventarController: Symbol.for("InventarController"),

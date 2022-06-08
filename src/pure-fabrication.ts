@@ -57,58 +57,42 @@ class BooksService {
 class Repository {
     constructor() {}
 
-    public async getBooks(): Promise<IBook[]> {
-        try {
-          
-        } catch(e) {
-            console.log(e);
-        }
-    };
-    public getBook(id: number): Promise<IBook> {
-        try {
-
-        } catch(e) {
-            console.log(e);
-        }
-    }
-    public createBook(dto: IBook): Promise<IBook> {}
-    public updateBook(id: number, dto: IBook): Promise<IBook> {}
-    public deleteBook(id: number): Promise<number> {}
+    public async getBooks(): Promise<any> {}
+    public async getBook(id: number): Promise<any> {}
+    public async createBook(dto: IBook): Promise<any> {}
+    public async updateBook(id: number, dto: IBook): Promise<any> {}
+    public async deleteBook(id: number): Promise<any> {}
 }
 
-// [❌]
-// class book {
-//     private title: string;
-//     private pages: number;
-//     private author: string;
+// // [❌, 💩 * 2^3]
+class book {
+    private title: string;
+    private pages: number;
+    private author: string;
 
-//     constructor(book: IBook) {
-//         this.title = book.title;
-//         this.pages = book.pages;
-//         this.author = book.author;
-//     }
+    constructor(book: IBook) {
+        this.title = book.title;
+        this.pages = book.pages;
+        this.author = book.author;
+    }
 
-//     get getTitle(): string {
-//         return this.title;
-//     }
+    get getTitle(): string {
+        return this.title;
+    }
 
-//     get getPages(): number {
-//         return this.pages
-//     }
+    get getPages(): number {
+        return this.pages
+    }
 
-//     get getAuthor(): string {
-//         return this.author;
-//     }
+    get getAuthor(): string {
+        return this.author;
+    }
 
-//     public getBooks(): Promise<IBook[]> {}
-
-//     public getBook(): Promise<IBook> {}
-
-//     public createBook(): Promise<IBook> {}
-
-//     public updateBook(): Promise<IBook> {}
-
-//     public deleteBook(): Promise<IBook> {}
-// }
+    public async getBooks(): Promise<any> {}
+    public async getBook(): Promise<any> {}
+    public async createBook(): Promise<any> {}
+    public async updateBook(): Promise<any> {}
+    public async deleteBook(): Promise<any> {}
+}
 
 export { Repository }

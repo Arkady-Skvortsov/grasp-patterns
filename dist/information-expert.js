@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Product = exports.Calculator = exports.Check = void 0;
+exports.CHeck = exports.PRoduct = exports.Product = exports.Calculator = exports.Check = void 0;
 require("reflect-metadata");
 const inversify_1 = require("inversify");
 const types_1 = require("./di-container/types");
@@ -60,7 +60,7 @@ let Calculator = class Calculator {
     get getProductSumm() {
         let summ = 0;
         this.check.map((c) => summ = c.getProductPrice);
-        return summ / 2;
+        return summ / this.discount;
     }
 };
 Calculator = __decorate([
@@ -74,4 +74,61 @@ const check = new Check(product, 10);
 const calculator = new Calculator([check], 30);
 console.log(check.getProductPrice); // 3000
 console.log(calculator.getProductSumm); // 400
+// [❌, 💩]
+let PRoduct = class PRoduct {
+    title;
+    price;
+    constructor(title, price) {
+        this.title = title;
+        this.price = price;
+    }
+    get getPrice() {
+        return this.price;
+    }
+};
+PRoduct = __decorate([
+    (0, inversify_1.injectable)(),
+    __metadata("design:paramtypes", [String, Number])
+], PRoduct);
+exports.PRoduct = PRoduct;
+let CHeck = class CHeck {
+    amount;
+    constructor(amount) {
+        this.amount = amount;
+    }
+    get getAmount() {
+        return this.amount;
+    }
+};
+CHeck = __decorate([
+    (0, inversify_1.injectable)(),
+    __metadata("design:paramtypes", [Number])
+], CHeck);
+exports.CHeck = CHeck;
+let CAlculator = class CAlculator {
+    product;
+    check;
+    disc;
+    discount;
+    constructor(product, check, disc) {
+        this.product = product;
+        this.check = check;
+        this.disc = disc;
+        this.discount = disc;
+    }
+    get getProductPrice() {
+        return this.product.getPrice * this.check.getAmount;
+    }
+    get getProductSumm() {
+        return this.getProductPrice / this.discount;
+    }
+};
+CAlculator = __decorate([
+    (0, inversify_1.injectable)(),
+    __param(0, (0, inversify_1.inject)(types_1.TYPES.PRoduct)),
+    __param(1, (0, inversify_1.inject)(types_1.TYPES.CHeck)),
+    __metadata("design:paramtypes", [PRoduct, CHeck, Number])
+], CAlculator);
+const Clculator = new CAlculator(new PRoduct("milk", 200), new CHeck(200), 20);
+console.log(Clculator.getProductSumm);
 //# sourceMappingURL=information-expert.js.map

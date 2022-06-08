@@ -3,7 +3,6 @@ import { inject, injectable } from "inversify";
 import { TYPES } from "./di-container/types";
 
 // [✅]
-@injectable()
 class Product {
     private title: string;
     private price: number;
@@ -18,7 +17,6 @@ class Product {
     }
 }
 
-@injectable()
 class Check {
     private amount: number;
     
@@ -26,12 +24,15 @@ class Check {
         this.amount = amount;
     }
     
-    public get getProductPrice(): number {
-        return this.product.getPrice * this.amount;
+    public getProductPrice(title: string, price: number): number {
+        return this.getProduct(title, price).getPrice * this.amount;
+    }
+    
+    private getProduct(title: string, price: number): Product {
+        return new Product(title, price);
     }
 }
 
-@injectable()
 class Calculator {
     private discount: number;
 
@@ -39,22 +40,20 @@ class Calculator {
         this.discount = discount / 100;
     }
 
-    public get getProductSumm(): number {
-        let summ: number = 0;
-
-        this.createCheck.map((c) => summ = c.getProductPrice)
-
-        return summ / (this.discount * 2);
+    public getProductSumm(amount: number, title: string, price: number): number {
+        return this.createCheck(amount).getProductPrice(title, price) - (this.createCheck(amount).getProductPrice(title, price) * this.discount);
     }
 
-    private createCheck(amount: number) {
-        return [new Check(amount)];
+    private createCheck(amount: number): Check {
+        return new Check(amount);
     }
 }
 
-// const calculator = new Calculator([new Check(new Product("Pen", 300), 10)], 30);
+const calculator = new Calculator(40);
 
-// console.log(calculator.getProductSumm); // 400
+console.log(calculator.getProductSumm(2, "Cola", 200).toFixed(2)); // 240
+console.log(calculator.getProductSumm(1, "Big Tasty", 400).toFixed(2)); // 240
+console.log(calculator.getProductSumm(20, "Chicken-mac-nagets", 50).toFixed(2)); // 600
 
 // [❌, 💩]
 
@@ -77,7 +76,7 @@ class product {
 class check {
     private amount: number;
     
-    constructor(@inject(TYPES.Product) private product: Product, amount: number) {
+    constructor(@inject(TYPES.Product) private product: product, amount: number) {
         this.amount = amount;
     }
     
@@ -87,10 +86,10 @@ class check {
 }
 
 @injectable()
-class CAlculator {
+class CALculator {
     private discount: number;
 
-    constructor(@inject(TYPES.Check) private check: Check[], discount: number) {
+    constructor(@inject(TYPES.Check) private check: check[], discount: number) {
         this.discount = discount / 100;
     }
 
@@ -103,8 +102,8 @@ class CAlculator {
     }
 }
 
-const cAlculator = new Calculator([new Check(new Product("Pen", 300), 10)], 30);
+const cAlculator = new CALculator([new check(new product("Pen", 300), 10)], 30);
 
-console.log(cAlculator.getProductSumm);
+//console.log(cAlculator.getProductSumm);
 
-export { Check, Calculator, Product }
+export { Check, Calculator, Product, product, check }

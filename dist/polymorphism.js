@@ -1,30 +1,16 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-const inversify_1 = require("inversify");
 // [✅]
-let Channel = class Channel {
+class Channel {
     advertisingSponsors;
     constructor() {
         this.advertisingSponsors = [];
     }
     addAdvertising(advertisingSponsors) { }
     getAdvertisingList() { }
-};
-Channel = __decorate([
-    (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
-], Channel);
-let CartoonChannel = class CartoonChannel extends Channel {
+}
+class CartoonChannel extends Channel {
     constructor() {
         super();
     }
@@ -34,12 +20,8 @@ let CartoonChannel = class CartoonChannel extends Channel {
     getAdvertisingList() {
         console.log(`Advertising of cartoon channel is ${this.advertisingSponsors.join(', ')}`);
     }
-};
-CartoonChannel = __decorate([
-    (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
-], CartoonChannel);
-let CountryChannel = class CountryChannel extends Channel {
+}
+class CountryChannel extends Channel {
     constructor() {
         super();
     }
@@ -49,12 +31,8 @@ let CountryChannel = class CountryChannel extends Channel {
     getAdvertisingList() {
         console.log(`Advertising of country channel is ${this.advertisingSponsors.join(', ')}`);
     }
-};
-CountryChannel = __decorate([
-    (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
-], CountryChannel);
-let SportChannel = class SportChannel extends Channel {
+}
+class SportChannel extends Channel {
     constructor() {
         super();
     }
@@ -64,11 +42,7 @@ let SportChannel = class SportChannel extends Channel {
     getAdvertisingList() {
         console.log(`Advertising of sport channel is ${this.advertisingSponsors.join(', ')}`);
     }
-};
-SportChannel = __decorate([
-    (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
-], SportChannel);
+}
 const countryChannel = new CountryChannel();
 const sportChannel = new SportChannel();
 const cartoonChannel = new CartoonChannel();
@@ -100,13 +74,13 @@ class channel {
     }
     getAdvertisingList() {
         if (this.type === "cartoon") {
-            console.log(`Advertising of that channel is ${this.advertisingSponsors.join(' ')}`);
+            console.log(`Advertising of that channel is ${this.advertisingSponsors.join(', ')}`);
         }
         if (this.type === "country") {
-            console.log(`Advertising of that channel is ${this.advertisingSponsors.join(' ')}`);
+            console.log(`Advertising of that channel is ${this.advertisingSponsors.join(', ')}`);
         }
         if (this.type === "sport") {
-            console.log(`Advertising of that channel is ${this.advertisingSponsors.join(' ')}`);
+            console.log(`Advertising of that channel is ${this.advertisingSponsors.join(', ')}`);
         }
     }
 }

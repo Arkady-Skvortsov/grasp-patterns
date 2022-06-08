@@ -44,7 +44,7 @@ class Calculator {
 
         this.check.map((c) => summ = c.getProductPrice)
 
-        return summ / 2;
+        return summ / this.discount;
     }
 }
 
@@ -56,6 +56,54 @@ console.log(check.getProductPrice); // 3000
 
 console.log(calculator.getProductSumm); // 400
 
-// [❌]
+// [❌, 💩]
+@injectable()
+class PRoduct {
+    private title: string;
+    private price: number;
 
-export { Check, Calculator, Product }
+    constructor(title: string, price: number) {
+        this.title = title;
+        this.price = price;
+    }
+
+    public get getPrice(): number {
+        return this.price;
+    }
+}
+
+@injectable()
+class CHeck {
+    private amount: number;
+    
+    constructor(amount: number) {
+        this.amount = amount;
+    }
+    
+    public get getAmount(): number {
+        return this.amount;
+    }
+}
+
+@injectable()
+class CAlculator {
+    private discount: number;
+
+    constructor(@inject(TYPES.PRoduct) private product: PRoduct, @inject(TYPES.CHeck) private check: CHeck, private disc: number) {
+        this.discount = disc;
+    }
+
+    public get getProductPrice(): number {
+        return this.product.getPrice * this.check.getAmount;
+    }
+
+    public get getProductSumm(): number {
+        return this.getProductPrice / this.discount;
+    }
+}
+
+const Clculator = new CAlculator(new PRoduct("milk", 200), new CHeck(200), 20);
+
+console.log(Clculator.getProductSumm);
+
+export { Check, Calculator, Product, PRoduct, CHeck }

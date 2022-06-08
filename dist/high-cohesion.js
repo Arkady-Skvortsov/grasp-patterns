@@ -32,7 +32,7 @@ const date = new Date();
 const temp = new Temp();
 temp.diff();
 date.diff();
-// [❌]
+// [❌, 💩]
 class DateTemp {
     constructor() { }
     dateDiff() { }
