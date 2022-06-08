@@ -8,75 +8,148 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BooksController = exports.InventarController = exports.UsersController = void 0;
+exports.usersService = exports.UsersController = void 0;
 require("reflect-metadata");
 const inversify_1 = require("inversify");
+const types_1 = require("./di-container/types");
 // [✅]
 let UsersController = class UsersController {
-    constructor() { }
-    getAllUsers() {
-        // Call service method, not working with Business logic here
+    usersService;
+    constructor(usersService) {
+        this.usersService = usersService;
     }
-    updateUser(dto, name) {
+    // GET /users
+    async getAllUsers() {
         // Call service method, not working with Business logic here
+        try {
+            return this.usersService.getAllUsers();
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
-    sendIventToFriends(dto, name) {
+    // PUT /user/:name
+    async updateUser(dto, name) {
         // Call service method, not working with Business logic here
+        try {
+            return this.usersService.updateUser(dto, name);
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
-    deleteUser(id) {
+    // POST /user/:name/invite
+    async sendIventToFriends(dto, name) {
         // Call service method, not working with Business logic here
+        try {
+            return this.usersService.sendIventToFriends(dto, name);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    // DELETE /user/:name
+    async deleteUser(name) {
+        // Call service method, not working with Business logic here
+        try {
+            return this.usersService.deleteUser(name);
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 };
 UsersController = __decorate([
     (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
+    __param(0, (0, inversify_1.inject)(types_1.TYPES.usersService)),
+    __metadata("design:paramtypes", [usersService])
 ], UsersController);
 exports.UsersController = UsersController;
-let InventarController = class InventarController {
-    updateInventar(dto) {
-        // Call service method, not working with Business logic here
+let usersService = class usersService {
+    repository;
+    constructor(repository) {
+        this.repository = repository;
+    }
+    async getAllUsers() {
+        return this.repository.getAllUsers();
+    }
+    async updateUser(dto, name) {
+        const upUser = await this.repository.updateUser(name, dto);
+        //
+    }
+    async sendIventToFriends(dto, name) {
+        // Operations with other services and repository here
+        const user = this.repository.getUser(name);
+    }
+    async deleteUser(name) {
+        return this.repository.deleteUser(name);
     }
 };
-InventarController = __decorate([
-    (0, inversify_1.injectable)()
-], InventarController);
-exports.InventarController = InventarController;
-let BooksController = class BooksController {
-    async getAllBooks() {
-        // Call service method, not working with Business logic here
-    }
-    async getBook() {
-        // Call service method, not working with Business logic here
-    }
-    async deleteBook() {
-        // Call service method, not working with Business logic here
-    }
-};
-BooksController = __decorate([
-    (0, inversify_1.injectable)()
-], BooksController);
-exports.BooksController = BooksController;
-// [❌]
-let UsersService = class UsersService {
+usersService = __decorate([
+    (0, inversify_1.injectable)(),
+    __param(0, (0, inversify_1.inject)(types_1.TYPES.Repository)),
+    __metadata("design:paramtypes", [Repository])
+], usersService);
+exports.usersService = usersService;
+let Repository = class Repository {
     constructor() { }
+    async getAllUsers() { }
+    async getUser(name) { }
+    async updateUser(dto, name) { }
+    async deleteUser(name) { }
+};
+Repository = __decorate([
+    (0, inversify_1.injectable)(),
+    __metadata("design:paramtypes", [])
+], Repository);
+// [❌, 💩]
+let UsersService = class UsersService {
+    repository;
+    constructor(repository) {
+        this.repository = repository;
+    }
+    // GET /users
+    async getAllUsers() {
+        try {
+            return this.repository.getAllUsers();
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async getUser(name) {
+        try {
+            return this.repository.getUser(name);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async sendIventToFriends(dto, name) {
+        try {
+            const currentUser = await this.repository.getUser(name);
+            // Some operations later.....
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    async deleteUser(name) {
+        try {
+            return this.repository.deleteUser(name);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 };
 UsersService = __decorate([
     (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
+    __param(0, (0, inversify_1.inject)(types_1.TYPES.Repository)),
+    __metadata("design:paramtypes", [Repository])
 ], UsersService);
-let InventarService = class InventarService {
-    constructor() { }
-};
-InventarService = __decorate([
-    (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
-], InventarService);
-let BooksService = class BooksService {
-    constructor() { }
-};
-BooksService = __decorate([
-    (0, inversify_1.injectable)(),
-    __metadata("design:paramtypes", [])
-], BooksService);
 //# sourceMappingURL=controller.js.map

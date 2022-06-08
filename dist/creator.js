@@ -110,5 +110,5 @@ CALculator = __decorate([
     __metadata("design:paramtypes", [check, Number])
 ], CALculator);
 const cAlculator = new CALculator(new check(new product("Big Tasty", 200), 2), 45);
-console.log(cAlculator.getProductSumm.toFixed(2));
+console.log(cAlculator.getProductSumm.toFixed(2)); // 220
 //# sourceMappingURL=creator.js.map
