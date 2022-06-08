@@ -49,11 +49,11 @@ class Calculator {
     }
 }
 
-const calculator = new Calculator(40);
+const calculator = new Calculator(45);
 
-console.log(calculator.getProductSumm(2, "Cola", 200).toFixed(2)); // 240
-console.log(calculator.getProductSumm(1, "Big Tasty", 400).toFixed(2)); // 240
-console.log(calculator.getProductSumm(20, "Chicken-mac-nagets", 50).toFixed(2)); // 600
+console.log(calculator.getProductSumm(2, "Cola", 200).toFixed(2)); // 220
+console.log(calculator.getProductSumm(2, "Big Tasty", 200).toFixed(2)); // 220
+console.log(calculator.getProductSumm(20, "Chicken-mac-nagets", 50).toFixed(2)); // 550
 
 // [❌, 💩]
 
@@ -89,21 +89,17 @@ class check {
 class CALculator {
     private discount: number;
 
-    constructor(@inject(TYPES.Check) private check: check[], discount: number) {
+    constructor(@inject(TYPES.Check) private check: check, discount: number) { 
         this.discount = discount / 100;
     }
 
     public get getProductSumm(): number {
-        let summ: number = 0;
-
-        this.check.map((c) => summ = c.getProductPrice)
-
-        return summ / (this.discount * 2);
+        return  this.check.getProductPrice - (this.check.getProductPrice  * this.discount);
     }
 }
 
-const cAlculator = new CALculator([new check(new product("Pen", 300), 10)], 30);
+const cAlculator = new CALculator(new check(new product("Big Tasty", 200), 2), 45);
 
-//console.log(cAlculator.getProductSumm);
+console.log(cAlculator.getProductSumm.toFixed(2)); // 220
 
 export { Check, Calculator, Product, product, check }

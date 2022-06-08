@@ -55,10 +55,10 @@ class Calculator {
     }
 }
 exports.Calculator = Calculator;
-const calculator = new Calculator(40);
-console.log(calculator.getProductSumm(2, "Cola", 200).toFixed(2)); // 340
-console.log(calculator.getProductSumm(1, "Big Tasty", 400).toFixed(2)); // 340
-console.log(calculator.getProductSumm(20, "Chicken-mac-nagets", 50).toFixed(2)); // 850
+const calculator = new Calculator(45);
+console.log(calculator.getProductSumm(2, "Cola", 200).toFixed(2)); // 220
+console.log(calculator.getProductSumm(2, "Big Tasty", 200).toFixed(2)); // 220
+console.log(calculator.getProductSumm(20, "Chicken-mac-nagets", 50).toFixed(2)); // 550
 // [❌, 💩]
 let product = class product {
     title;
@@ -101,15 +101,14 @@ let CALculator = class CALculator {
         this.discount = discount / 100;
     }
     get getProductSumm() {
-        let summ = 0;
-        this.check.map((c) => summ = c.getProductPrice);
-        return summ / (this.discount * 2);
+        return this.check.getProductPrice - (this.check.getProductPrice * this.discount);
     }
 };
 CALculator = __decorate([
     (0, inversify_1.injectable)(),
     __param(0, (0, inversify_1.inject)(types_1.TYPES.Check)),
-    __metadata("design:paramtypes", [Array, Number])
+    __metadata("design:paramtypes", [check, Number])
 ], CALculator);
-const cAlculator = new CALculator([new check(new product("Pen", 300), 10)], 30);
+const cAlculator = new CALculator(new check(new product("Big Tasty", 200), 2), 45);
+console.log(cAlculator.getProductSumm.toFixed(2));
 //# sourceMappingURL=creator.js.map

@@ -68,7 +68,7 @@ countryChannel.getAdvertisingList();
 sportChannel.getAdvertisingList();
 cartoonChannel.getAdvertisingList();
 
-// [❌]
+// [❌, 💩 * 2^3]
 class channel {
     private type: channelType;
     private advertisingSponsors: string[]

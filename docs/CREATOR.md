@@ -20,12 +20,12 @@ If the procedure for creating an object is quite complicated (for example: it is
 So, if a Check creates a Product, then it calls it; If the Calculator creates a Check, then it calls it; Sounds simple, but you have to learn how to produce/construct objects for business with this, i.e. what we saw in "Information Expert" when everything is called through new, and this pattern teaches that a constructor call is the same as a method call, because you will agree, it will not be nice to see this piece somewhere at the other end of the system?:
 
 ```ts
-    new Calculator([new Check(new Product("hamburger", 200), 2)])
+    new Calculator([new Check(new Product("hamburger", 200), 2)], 45).toFixed(2); // 220.00
 ```
 How about shortening it to this: 
 
 ```ts
-    new Calculator().getProductSumm("hamburger", 200, 2);
+    new Calculator(45).getProductSumm(2, "hamburger", 200).toFixed(2); // 220.00
 ```
 
 Is that better, yeah ?
